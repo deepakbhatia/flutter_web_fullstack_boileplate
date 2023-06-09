@@ -1,14 +1,23 @@
-FROM cirrusci/flutter:dev AS build
+FROM ghcr.io/cirruslabs/flutter:3.7.12 AS build
 
 WORKDIR /build
 
-RUN flutter channel beta \
-    && flutter upgrade \
-    && flutter config --enable-web \
-    && sudo apt-get update \
-    && sudo apt-get install -y nginx \
-    && sudo apt-get install -y chromium-browser \
-    && sudo rm -rf /var/lib/apt/lists/*
+# download Flutter SDK from Flutter Github repo
+#RUN git clone https://github.com/flutter/flutter.git /usr/local/flutter
+#
+## Set flutter environment path
+#ENV PATH="/usr/local/flutter/bin:/usr/local/flutter/bin/cache/dart-sdk/bin:${PATH}"
+#
+## Run flutter doctor
+#RUN flutter doctor
+
+#RUN flutter channel stable
+#RUN flutter upgrade
+RUN flutter config --enable-web
+RUN sudo apt-get update
+RUN sudo apt-get install -y nginx
+RUN sudo apt-get install -y chromium-browser
+RUN sudo rm -rf /var/lib/apt/lists/*
 
 COPY . .
 
