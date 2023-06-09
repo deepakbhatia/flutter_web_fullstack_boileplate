@@ -51,23 +51,29 @@ func main() {
 		}
 	}()
 
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
 	quit := make(chan os.Signal, 1)
 
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM, syscall.SIGHUP)
-	<-quit
+	go func() {
+		// Waiting for interrupt by system signal
+		<-quit
+
+		if err = s.Shutdown(ctx); err != nil {
+			log.Fatal("Server shutdown", err)
+		}
+
+		select {
+		case <-ctx.Done():
+			log.Println("Timeout of 5 seconds")
+		}
+		log.Println("Server exiting")
+		os.Exit(1)
+
+	}()
+
 	log.Println("Shutting down the server...")
-
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
-
-	if err = s.Shutdown(ctx); err != nil {
-		log.Fatal("Server shutdown", err)
-	}
-
-	select {
-	case <-ctx.Done():
-		log.Println("Timeout of 5 seconds")
-	}
-	log.Println("Server exiting")
 
 }
