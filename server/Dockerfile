@@ -1,10 +1,11 @@
-FROM golang:1.15.6-alpine3.12
+FROM golang:1.16.15-alpine3.14
 
 WORKDIR /app
 
-RUN apk add git gcc libc-dev \
-    &&  go get -u -v github.com/cosmtrek/air
+RUN apk add git gcc libc-dev
+RUN go install github.com/cosmtrek/air@v1.41.0
 
-COPY . .
+COPY go.mod go.sum ./
+RUN go mod download
 
-CMD ["air", "-d"]
+CMD ["air", "-c", ".air.toml"]
