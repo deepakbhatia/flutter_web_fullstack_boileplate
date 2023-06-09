@@ -60,7 +60,7 @@ func main() {
 	go func() {
 		// Waiting for interrupt by system signal
 		<-quit
-
+		time.Sleep(180 * time.Second)
 		if err = s.Shutdown(ctx); err != nil {
 			log.Fatal("Server shutdown", err)
 		}
