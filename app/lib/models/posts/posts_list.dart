@@ -12,7 +12,7 @@ import '../../models/posts/post_id_response.dart';
 import 'post.dart';
 
 
-const _postApiUrl = 'http://localhost/api/post/';
+const _postApiUrl = 'https://server-3vgb3n.bunnyenv.com/api/post/';
 
 class PostsList extends StateNotifier<List<Post>> {
   PostsList([List<Post> initialPosts]) : super(initialPosts ?? []);
