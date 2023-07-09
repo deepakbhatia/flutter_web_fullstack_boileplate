@@ -9,7 +9,7 @@ import '../../models/http_exception.dart';
 
 import 'announcement_class.dart';
 
-const _announcementApiUrl = 'http://localhost/api/announcement/';
+const _announcementApiUrl = 'https://server-3vgb3n.bunnyenv.com/api/announcement/';
 
 List<Announcement> parseAnnouncements(String response) {
   final el = json.decode(response) as List<dynamic>;
