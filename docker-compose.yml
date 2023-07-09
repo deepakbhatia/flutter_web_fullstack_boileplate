@@ -44,13 +44,15 @@ services:
       context: app
     stdin_open: true
     tty: true
+    environment:
+      API_BASE_URL: http://0.0.0.0
     volumes:
       - ./app:/build
     ports:
       - "8080:8080"
     command: >
       sh -c "flutter pub get
-      && flutter run -d web-server --web-port 8080 --web-hostname 0.0.0.0"
+      && flutter run --dart-define=API_BASE_URL=${API_BASE_URL} -d web-server --web-port 8080 --web-hostname 0.0.0.0"
     depends_on:
       - server
   nginx:
