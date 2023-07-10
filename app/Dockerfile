@@ -11,8 +11,8 @@ WORKDIR /build
 ## Run flutter doctor
 #RUN flutter doctor
 
-#RUN flutter channel stable
-#RUN flutter upgrade
+RUN flutter channel stable
+RUN flutter upgrade
 RUN flutter config --enable-web
 RUN sudo apt-get update
 RUN sudo apt-get install -y nginx
